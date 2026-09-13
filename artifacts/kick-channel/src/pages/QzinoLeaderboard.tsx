@@ -77,7 +77,7 @@ export default function QzinoLeaderboard() {
 
         {/* CTA top */}
         <div className="w-full max-w-xs mb-8">
-          <a href="https://qzino-partners.com/tbh4gyngo" target="_blank" rel="noopener noreferrer" className="w-full">
+          <a href="https://legendz.io?ref=MANTS7" target="_blank" rel="noopener noreferrer" className="w-full">
             <button className="w-full h-11 text-sm font-bold text-white rounded-md bg-[#7c3aed] hover:bg-[#6d28d9] transition-colors">
               SIGN UP WITH CODE MANTS7
             </button>
@@ -201,7 +201,7 @@ export default function QzinoLeaderboard() {
 
         {/* CTA bottom */}
         <div className="mb-4 w-full max-w-xs">
-          <a href="https://qzino-partners.com/tbh4gyngo" target="_blank" rel="noopener noreferrer" className="w-full">
+          <a href="https://legendz.io?ref=MANTS7" target="_blank" rel="noopener noreferrer" className="w-full">
             <button className="w-full h-11 text-sm font-black tracking-wider text-white rounded-md bg-[#7c3aed] hover:bg-[#6d28d9] transition-colors">
               SIGN UP WITH CODE MANTS7
             </button>

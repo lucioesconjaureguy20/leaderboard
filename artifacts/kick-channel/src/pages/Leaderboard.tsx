@@ -273,7 +273,7 @@ export default function Leaderboard() {
 
           {/* ── CTA top ── */}
           <a
-            href="https://stake.com/?c=mants7"
+            href="https://legendz.io?ref=MANTS7"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full max-w-xs mb-8"
@@ -436,7 +436,7 @@ export default function Leaderboard() {
 
           {/* ── CTA bottom ── */}
           <div className="mt-8 mb-4 w-full max-w-xs">
-            <a href="https://stake.com/?c=mants7" target="_blank" rel="noopener noreferrer">
+            <a href="https://legendz.io?ref=MANTS7" target="_blank" rel="noopener noreferrer">
               <Button
                 className="w-full h-11 text-sm font-black tracking-wider text-white bg-[#7c3aed] hover:bg-[#6d28d9] border-none"
                 data-testid="button-signup-bottom"

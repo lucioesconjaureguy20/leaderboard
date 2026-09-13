@@ -51,7 +51,7 @@ export default function Home() {
                 >
                   VIEW LEADERBOARD
                 </Button>
-                <a href="https://stake.com/?c=mants7" target="_blank" rel="noopener noreferrer" className="w-full">
+                <a href="https://legendz.io?ref=MANTS7" target="_blank" rel="noopener noreferrer" className="w-full">
                   <Button className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold bg-[#7c3aed] hover:bg-[#6d28d9] text-white border-none px-1" data-testid="button-signup-code">
                     SIGN UP WITH CODE MANTS7
                   </Button>
