@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import CountdownTimer from "@/components/CountdownTimer";
 
 // ─── Seeded RNG (LCG) ────────────────────────────────────────────────────────
 function makeRng(seed: number) {
@@ -15,8 +14,8 @@ function makeRng(seed: number) {
   };
 }
 
-// ─── Race config ─────────────────────────────────────────────────────────────
-const RACE_START_MS = new Date("2026-06-01T00:00:00Z").getTime();
+// ─── August 2026 race config ─────────────────────────────────────────────────
+const RACE_START_MS = new Date("2026-08-01T00:00:00Z").getTime();
 
 const RANK_TARGETS: number[] = [
   // Ranks 1–3
@@ -146,7 +145,7 @@ function formatWager(n: number): string {
   return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-// ─── Previous month (May 1 – June 1, 2026) ───────────────────────────────────
+// ─── Previous month (July 1 – August 1, 2026) ─────────────────────────────────
 // Final wagers ≈ 88–98 % of RANK_TARGETS so results look natural
 const PREV_MULTIPLIERS = [0.985, 0.962, 0.969, 0.939, 0.927, 0.919, 0.908, 0.904, 0.906, 0.951,
   0.91, 0.89, 0.92, 0.88, 0.93, 0.87, 0.90, 0.91, 0.89, 0.92,
@@ -177,7 +176,6 @@ const TOP3_META = [
 
 // ─── Component ───────────────────────────────────────────────────────────────
 export default function Leaderboard() {
-  const targetDate = new Date("2026-07-01T00:00:00Z");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [nowMs, setNowMs] = useState(() => Date.now());
   const [showPrev, setShowPrev] = useState(false);
@@ -269,7 +267,7 @@ export default function Leaderboard() {
             </div>
             <h2 className="text-5xl sm:text-6xl font-black text-primary mb-1">$2,000</h2>
             <p className="text-xs sm:text-sm text-muted-foreground font-medium tracking-widest uppercase">
-              {showPrev ? "May 1 – June 1, 2026 · Final Results" : "June 1 – July 1, 2026"}
+               {showPrev ? "July 1 – August 1, 2026 · Final Results" : "August 1 – September 8, 2026 · Final Results"}
             </p>
           </div>
 
@@ -351,16 +349,13 @@ export default function Leaderboard() {
             })}
           </div>
 
-          {/* ── Countdown / toggle ── */}
+          {/* ── Final results / toggle ── */}
           <div className="mb-8 text-center">
-            {!showPrev && <CountdownTimer targetDate={targetDate} />}
-            {showPrev && (
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-1">
-                <span className="text-xs font-bold text-primary tracking-widest uppercase">Final Results</span>
-              </div>
-            )}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-1">
+              <span className="text-xs font-bold text-primary tracking-widest uppercase">Final Results</span>
+            </div>
             <p className="text-muted-foreground text-xs tracking-widest uppercase mt-2">
-              {showPrev ? "May 1 – June 1, 2026" : "Started 01/06/2026"}
+              {showPrev ? "July 1 – August 1, 2026" : "Ended September 8, 2026"}
             </p>
             <button
               onClick={() => { setShowPrev((p) => !p); setVisibleCount(PAGE_SIZE); }}
