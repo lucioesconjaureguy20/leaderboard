@@ -1,6 +1,5 @@
 import logoPath from "@assets/ChatGPT_Image_7_jun_2026,_16_06_27_1780859648982.png";
 import legendzLogo from "@assets/image_1789266343540.png";
-import qzinoLogo from "@assets/qzino_1781017982877.png";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,10 +32,10 @@ export default function Home() {
         </div>
 
         {/* Cards */}
-        <div className="w-full flex flex-row gap-4">
+        <div className="w-full flex justify-center">
 
-          {/* Stake card */}
-          <Card className="flex-1 bg-[#15192b] border-transparent">
+          {/* Legendz card */}
+          <Card className="w-full max-w-sm bg-[#15192b] border-transparent">
             <CardContent className="p-3 sm:p-6 flex flex-col items-center gap-3">
               <div className="text-[9px] sm:text-sm font-bold text-muted-foreground tracking-widest uppercase text-center">
                 Monthly Leaderboard
@@ -56,28 +55,6 @@ export default function Home() {
                   <Button className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold bg-[#7c3aed] hover:bg-[#6d28d9] text-white border-none px-1" data-testid="button-signup-code">
                     SIGN UP WITH CODE MANTS7
                   </Button>
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Qzino card */}
-          <Card className="flex-1 bg-[#15192b] border-transparent">
-            <CardContent className="p-3 sm:p-6 flex flex-col items-center gap-3">
-              <img src={qzinoLogo} alt="Qzino" className="h-5 sm:h-8 object-contain" />
-              <div className="text-2xl sm:text-4xl font-bold text-primary">$*,***</div>
-              <div className="w-full flex flex-col gap-2">
-                <Button
-                  onClick={() => navigate("/qzino")}
-                  variant="outline"
-                  className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold border-2 border-white/70 hover:bg-white/10 hover:text-white transition-all px-1"
-                >
-                  VIEW LEADERBOARD
-                </Button>
-                <a href="https://qzino-partners.com/tbh4gyngo" target="_blank" rel="noopener noreferrer" className="w-full">
-                  <button className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold rounded-md bg-[#7c3aed] hover:bg-[#6d28d9] text-white transition-colors px-1">
-                    SIGN UP WITH CODE MANTS7
-                  </button>
                 </a>
               </div>
             </CardContent>

@@ -1,4 +1,4 @@
-import stakeLogo from "@assets/image_1780858545408.png";
+import legendzLogo from "@assets/image_1789266343540.png";
 import avatarLogo from "@assets/ChatGPT_Image_7_jun_2026,_16_06_27_1780859193229.png";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -98,9 +98,9 @@ const bgLogos = [
 ];
 
 const prizes: Record<number, string> = {
-  1: "$2,000", 2: "$1,100", 3: "$650",
-  4: "$400",   5: "$300",   6: "$200",  7: "$150",
-  8: "$100",   9: "$75",   10: "$25",
+  1: "$800", 2: "$400", 3: "$250",
+  4: "$175", 5: "$125", 6: "$100", 7: "$75",
+  8: "$50", 9: "$15", 10: "$10",
 };
 
 const PLAYER_NAMES: string[] = [
@@ -161,18 +161,18 @@ function computePrevWager(rank: number): number {
 }
 
 const PREV_TOP3_META = [
-  { rank: 2, user: "Zx*******", prize: "$1,100", color: "bg-slate-300" },
-  { rank: 1, user: "K9**",      prize: "$2,000", color: "bg-primary"   },
-  { rank: 3, user: "To****",    prize: "$650",   color: "bg-[#cd7f32]" },
+  { rank: 2, user: "Zx*******", prize: "$400", color: "bg-slate-300" },
+  { rank: 1, user: "K9**",      prize: "$800", color: "bg-primary"   },
+  { rank: 3, user: "To****",    prize: "$250", color: "bg-[#cd7f32]" },
 ];
 
 const PAGE_SIZE  = 27;
 const TOTAL_ROWS = 97;
 
 const TOP3_META = [
-  { rank: 2, user: "ic*******", prize: "$1,100", color: "bg-slate-300" },
-  { rank: 1, user: "K9**",      prize: "$2,000", color: "bg-primary"   },
-  { rank: 3, user: "To****",    prize: "$650",   color: "bg-[#cd7f32]" },
+  { rank: 2, user: "ic*******", prize: "$400", color: "bg-slate-300" },
+  { rank: 1, user: "K9**",      prize: "$800", color: "bg-primary"   },
+  { rank: 3, user: "To****",    prize: "$250", color: "bg-[#cd7f32]" },
 ];
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -224,7 +224,7 @@ export default function Leaderboard() {
       {bgLogos.map((logo, i) => (
         <img
           key={i}
-          src={stakeLogo}
+          src={legendzLogo}
           alt=""
           aria-hidden="true"
           style={{
@@ -235,7 +235,7 @@ export default function Leaderboard() {
             width:     logo.size,
             opacity:   logo.opacity,
             transform: `rotate(${logo.rotate}deg)`,
-            filter:    "invert(1)",
+            mixBlendMode: "screen",
             pointerEvents: "none",
             userSelect:    "none",
             zIndex: 0,
@@ -261,13 +261,13 @@ export default function Leaderboard() {
               />
               <span className="text-xl font-black text-white/50">×</span>
               <img
-                src={stakeLogo}
-                alt="Stake"
+                src={legendzLogo}
+                alt="Legendz.io"
                 className="h-8 sm:h-10 object-contain"
-                style={{ filter: "invert(1)", opacity: 0.9 }}
+                style={{ mixBlendMode: "screen", opacity: 0.95 }}
               />
             </div>
-            <h2 className="text-5xl sm:text-6xl font-black text-primary mb-1">$5,000</h2>
+            <h2 className="text-5xl sm:text-6xl font-black text-primary mb-1">$2,000</h2>
             <p className="text-xs sm:text-sm text-muted-foreground font-medium tracking-widest uppercase">
               {showPrev ? "May 1 – June 1, 2026 · Final Results" : "June 1 – July 1, 2026"}
             </p>
