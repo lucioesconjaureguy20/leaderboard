@@ -1,5 +1,5 @@
 import logoPath from "@assets/ChatGPT_Image_7_jun_2026,_16_06_27_1780859648982.png";
-import stakeLogo from "@assets/image_1780858545408.png";
+import legendzLogo from "@assets/image_1789266343540.png";
 import qzinoLogo from "@assets/qzino_1781017982877.png";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -41,8 +41,8 @@ export default function Home() {
               <div className="text-[9px] sm:text-sm font-bold text-muted-foreground tracking-widest uppercase text-center">
                 Monthly Leaderboard
               </div>
-              <img src={stakeLogo} alt="Stake" className="h-5 sm:h-8 object-contain" style={{ filter: "invert(1)", opacity: 0.9 }} />
-              <div className="text-2xl sm:text-4xl font-bold text-primary">$5,000</div>
+              <img src={legendzLogo} alt="Legendz.io" className="h-5 sm:h-8 object-contain" style={{ mixBlendMode: "screen", opacity: 0.95 }} />
+              <div className="text-2xl sm:text-4xl font-bold text-primary">$2,000</div>
               <div className="w-full flex flex-col gap-2">
                 <Button
                   onClick={() => navigate("/stake")}
@@ -64,9 +64,6 @@ export default function Home() {
           {/* Qzino card */}
           <Card className="flex-1 bg-[#15192b] border-transparent">
             <CardContent className="p-3 sm:p-6 flex flex-col items-center gap-3">
-              <div className="text-[9px] sm:text-sm font-bold text-muted-foreground tracking-widest uppercase text-center">
-                Monthly Leaderboard
-              </div>
               <img src={qzinoLogo} alt="Qzino" className="h-5 sm:h-8 object-contain" />
               <div className="text-2xl sm:text-4xl font-bold text-primary">$*,***</div>
               <div className="w-full flex flex-col gap-2">
