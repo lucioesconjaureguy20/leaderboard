@@ -1,0 +1,1 @@
+- [Winovo leaderboard contract](winovo-leaderboard-contract.md) — API lacks dates, prizes, deposits, and eligibility; keep them configurable and visibly pending.

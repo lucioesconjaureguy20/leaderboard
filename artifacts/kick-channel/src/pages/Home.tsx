@@ -1,5 +1,6 @@
 import logoPath from "@assets/ChatGPT_Image_7_jun_2026,_16_06_27_1780859648982.png";
 import legendzLogo from "@assets/image_1789266343540.png";
+import winovoLogo from "@assets/0_winovo_1789433375115.png";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -66,9 +67,11 @@ export default function Home() {
               <div className="text-[9px] sm:text-sm font-bold text-muted-foreground tracking-widest uppercase text-center">
                 Weekly Leaderboard
               </div>
-              <div className="h-5 sm:h-8 flex items-center text-xl sm:text-2xl font-black italic tracking-tight text-white">
-                WIN<span className="text-[#7c3aed]">OVO</span>
-              </div>
+              <img
+                src={winovoLogo}
+                alt="Winovo"
+                className="h-5 sm:h-8 max-w-[150px] object-contain"
+              />
               <div className="text-2xl sm:text-4xl font-bold text-primary">$500</div>
               <div className="w-full flex flex-col gap-2">
                 <Button

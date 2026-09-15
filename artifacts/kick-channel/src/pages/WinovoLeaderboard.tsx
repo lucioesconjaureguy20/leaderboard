@@ -1,10 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle, Clock3, LoaderCircle, Trophy } from "lucide-react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import CountdownTimer from "@/components/CountdownTimer";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import winovoLogo from "@assets/0_winovo_1789433375115.png";
+import avatarLogo from "@assets/ChatGPT_Image_7_jun_2026,_16_06_27_1780859193229.png";
 
 const WINOVO_REFERRAL_URL = "https://winovo.io/?ref=mants7";
+const PAGE_SIZE = 27;
+
+const bgLogos = [
+  { top: "2%", left: "2%", size: 100, rotate: -15, opacity: 0.05 },
+  { top: "3%", right: "3%", size: 120, rotate: 18, opacity: 0.04 },
+  { top: "16%", left: "12%", size: 95, rotate: -8, opacity: 0.04 },
+  { top: "20%", right: "10%", size: 105, rotate: 14, opacity: 0.04 },
+  { top: "36%", left: "2%", size: 90, rotate: 10, opacity: 0.04 },
+  { top: "42%", right: "3%", size: 110, rotate: -16, opacity: 0.04 },
+  { top: "61%", left: "8%", size: 105, rotate: 16, opacity: 0.04 },
+  { top: "68%", right: "10%", size: 95, rotate: -10, opacity: 0.04 },
+  { top: "84%", left: "3%", size: 100, rotate: -18, opacity: 0.04 },
+  { top: "90%", right: "4%", size: 110, rotate: 12, opacity: 0.04 },
+];
 
 type WinovoLeaderboardResponse = {
   status: "ok";
@@ -50,6 +68,7 @@ function formatDate(value: string) {
 }
 
 export default function WinovoLeaderboard() {
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const { data, error, isLoading, isFetching } = useQuery({
     queryKey: ["winovo-leaderboard"],
     queryFn: getWinovoLeaderboard,
@@ -60,130 +79,258 @@ export default function WinovoLeaderboard() {
 
   const hasDates = Boolean(data?.competition.startAt && data?.competition.endAt);
   const endDate = data?.competition.endAt ? new Date(data.competition.endAt) : null;
+  const topPlayers = (data?.players ?? []).slice(0, 3);
+  const podiumPlayers = [topPlayers[1], topPlayers[0], topPlayers[2]].filter(Boolean);
+  const tablePlayers = (data?.players ?? []).slice(3, visibleCount);
+  const canLoadMore = Boolean(data && visibleCount < data.players.length);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-      <div className="flex flex-col items-center text-center">
-        <div className="mb-3 text-3xl sm:text-4xl font-black italic tracking-tight text-white">
-          WIN<span className="text-[#7c3aed]">OVO</span>
-        </div>
-        <h1 className="text-4xl sm:text-6xl font-black text-primary">$500</h1>
-        <p className="mt-1 text-lg sm:text-2xl font-bold uppercase tracking-widest">Weekly Wager Race</p>
+    <div className="w-full relative overflow-hidden">
+      {bgLogos.map((logo, index) => (
+        <img
+          key={index}
+          src={winovoLogo}
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: logo.top,
+            left: "left" in logo ? logo.left : undefined,
+            right: "right" in logo ? logo.right : undefined,
+            width: logo.size,
+            opacity: logo.opacity,
+            transform: `rotate(${logo.rotate}deg)`,
+            pointerEvents: "none",
+            userSelect: "none",
+            zIndex: 0,
+          }}
+        />
+      ))}
 
-        <div className="mt-4 min-h-10 flex items-center justify-center">
-          {hasDates && data ? (
-            <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest">
-              {formatDate(data.competition.startAt!)} – {formatDate(data.competition.endAt!)}
+      <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center"
+        >
+          <div className="text-center mb-6">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <img
+                src={avatarLogo}
+                alt="Mants7"
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover"
+                style={{ objectPosition: "50% 30%", mixBlendMode: "screen" }}
+              />
+              <span className="text-xl font-black text-white/50">×</span>
+              <img src={winovoLogo} alt="Winovo" className="h-8 sm:h-10 object-contain" />
+            </div>
+            <h1 className="text-5xl sm:text-6xl font-black text-primary mb-1">$500</h1>
+            <p className="text-xs sm:text-sm text-muted-foreground font-medium tracking-widest uppercase">
+              $500 Weekly Wager Race
             </p>
-          ) : (
-            <p className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
-              <Clock3 className="w-4 h-4" />
-              Fechas pendientes de confirmación por Winovo
-            </p>
-          )}
-        </div>
-
-        {endDate && endDate.getTime() > Date.now() && (
-          <div className="mt-6">
-            <CountdownTimer targetDate={endDate} />
           </div>
-        )}
 
-        <a href={WINOVO_REFERRAL_URL} target="_blank" rel="noopener noreferrer" className="w-full max-w-xs mt-6">
-          <Button className="w-full h-11 font-bold text-white bg-[#7c3aed] hover:bg-[#6d28d9] border-none">
-            SIGN UP WITH CODE MANTS7
-          </Button>
-        </a>
+          <a href={WINOVO_REFERRAL_URL} target="_blank" rel="noopener noreferrer" className="w-full max-w-xs mb-8">
+            <Button className="w-full h-11 text-sm font-bold text-white bg-[#7c3aed] hover:bg-[#6d28d9] border-none">
+              SIGN UP WITH CODE MANTS7
+            </Button>
+          </a>
 
-        <div className="w-full mt-8 rounded-xl border border-primary/25 bg-primary/[0.06] p-4 text-left">
-          <p className="font-bold text-sm text-foreground">
-            Condición para recibir el premio
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            Para recibir el premio, tus depósitos deben superar el importe del premio correspondiente a tu posición.
-            Si depositaste menos que ese importe, el premio queda anulado.
-          </p>
-          <p className="mt-2 text-xs text-muted-foreground/75">
-            La igualdad exacta y el período de depósitos no están definidos. La elegibilidad queda pendiente de
-            validación por Winovo y no se descalifica automáticamente a ningún jugador.
-          </p>
-        </div>
-
-        <div className="w-full mt-8">
           {isLoading && (
-            <div className="min-h-56 rounded-xl border border-border/40 bg-card flex flex-col items-center justify-center gap-3">
+            <div className="w-full min-h-72 flex flex-col items-center justify-center gap-3">
               <LoaderCircle className="w-7 h-7 animate-spin text-primary" />
               <p className="text-sm text-muted-foreground">Cargando ranking real de Winovo…</p>
             </div>
           )}
 
           {error && (
-            <div className="min-h-56 rounded-xl border border-red-500/30 bg-red-500/5 flex flex-col items-center justify-center gap-3 px-6">
+            <div className="w-full min-h-64 rounded-xl border border-red-500/30 bg-red-500/5 flex flex-col items-center justify-center gap-3 px-6">
               <AlertCircle className="w-7 h-7 text-red-400" />
               <p className="font-bold">No se pudo cargar el ranking</p>
               <p className="text-sm text-muted-foreground text-center">{error.message}</p>
             </div>
           )}
 
-          {data && !error && data.players.length === 0 && (
-            <div className="min-h-56 rounded-xl border border-border/40 bg-card flex flex-col items-center justify-center gap-3 px-6">
-              <Trophy className="w-7 h-7 text-primary" />
-              <p className="font-bold">Todavía no hay jugadores en el ranking</p>
-              <p className="text-sm text-muted-foreground">Los datos aparecerán cuando Winovo reporte wagers.</p>
-            </div>
-          )}
-
-          {data && !error && data.players.length > 0 && (
-            <div className="rounded-xl border border-border/40 overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-white/[0.03] hover:bg-white/[0.03]">
-                    <TableHead className="w-16 text-center">#</TableHead>
-                    <TableHead>PLAYER</TableHead>
-                    <TableHead className="text-right">WAGERED</TableHead>
-                    <TableHead className="text-right">PRIZE</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data.players.map((player, index) => {
-                    const rank = index + 1;
+          {data && !error && (
+            <>
+              {topPlayers.length > 0 ? (
+                <div className="flex items-end justify-center gap-3 sm:gap-6 mb-10 w-full">
+                  {podiumPlayers.map((player, index) => {
+                    const rank = data.players.indexOf(player) + 1;
+                    const isFirst = rank === 1;
+                    const isSecond = rank === 2;
                     const prize = data.prizes?.[String(rank)];
                     return (
-                      <TableRow key={`${player.name}-${rank}`} className="border-border/25">
-                        <TableCell className="text-center font-bold text-primary">{rank}</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-3">
-                            {player.pic ? (
-                              <img src={player.pic} alt="" className="w-8 h-8 rounded-full object-cover bg-muted" />
-                            ) : (
-                              <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center text-xs font-bold text-primary">
-                                {player.name.slice(0, 2).toUpperCase()}
-                              </div>
-                            )}
-                            <span className="font-semibold">{player.name}</span>
+                      <motion.div
+                        key={`${player.name}-${rank}`}
+                        initial={{ opacity: 0, scale: 0.85 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: index * 0.1, duration: 0.4 }}
+                        className={`flex flex-col items-center ${isFirst ? "order-2 z-10" : isSecond ? "order-1" : "order-3"}`}
+                      >
+                        <div className="flex flex-col items-center mb-2">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-black text-xs mb-1.5 shadow ${
+                            isFirst ? "bg-primary" : isSecond ? "bg-slate-300" : "bg-[#cd7f32]"
+                          }`}>
+                            {rank}
                           </div>
-                        </TableCell>
-                        <TableCell className="text-right font-mono text-muted-foreground">
-                          {formatCurrency(player.wagered)}
-                        </TableCell>
-                        <TableCell className="text-right font-bold text-primary">
-                          {typeof prize === "number" ? formatCurrency(prize) : "Pending"}
-                        </TableCell>
-                      </TableRow>
+                          <div className={`rounded-full border-4 overflow-hidden ${
+                            isFirst
+                              ? "w-16 h-16 sm:w-20 sm:h-20 border-primary shadow-[0_0_16px_rgba(168,85,247,0.5)]"
+                              : "w-12 h-12 sm:w-16 sm:h-16 border-muted"
+                          }`}>
+                            {player.pic ? (
+                              <img src={player.pic} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              <img
+                                src={avatarLogo}
+                                alt=""
+                                className="w-full h-full object-cover"
+                                style={{ objectPosition: "50% 30%", mixBlendMode: "screen" }}
+                              />
+                            )}
+                          </div>
+                        </div>
+                        <div className={`w-24 sm:w-32 rounded-t-xl border-x border-t border-border flex flex-col items-center px-2 py-3 text-center ${
+                          isFirst
+                            ? "h-44 sm:h-52 border-primary/50 bg-gradient-to-t from-primary/10 to-card"
+                            : isSecond ? "h-32 sm:h-40 bg-card" : "h-24 sm:h-32 bg-card"
+                        }`}>
+                          <div className="font-bold text-foreground text-xs sm:text-sm truncate w-full">{player.name}</div>
+                          <div className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 mb-auto truncate w-full">
+                            {formatCurrency(player.wagered)}
+                          </div>
+                          <div className="font-black text-primary text-sm sm:text-base mt-1">
+                            {typeof prize === "number" ? formatCurrency(prize) : "Pending"}
+                          </div>
+                        </div>
+                      </motion.div>
                     );
                   })}
-                </TableBody>
-              </Table>
-            </div>
+                </div>
+              ) : (
+                <div className="w-full min-h-52 mb-6 rounded-lg border border-border/40 bg-card/50 flex flex-col items-center justify-center gap-3 px-6">
+                  <Trophy className="w-7 h-7 text-primary" />
+                  <p className="font-bold">Todavía no hay jugadores en el ranking</p>
+                  <p className="text-sm text-muted-foreground text-center">Los datos aparecerán cuando Winovo reporte wagers.</p>
+                </div>
+              )}
+
+              <div className="mb-8 text-center">
+                {endDate && endDate.getTime() > Date.now() ? (
+                  <CountdownTimer targetDate={endDate} />
+                ) : (
+                  <>
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                      <Clock3 className="w-3.5 h-3.5 text-primary" />
+                      <span className="text-xs font-bold text-primary tracking-widest uppercase">Schedule Pending</span>
+                    </div>
+                    <p className="text-muted-foreground text-xs tracking-widest uppercase mt-3">
+                      Fechas pendientes de confirmación por Winovo
+                    </p>
+                  </>
+                )}
+                {hasDates && data && (
+                  <p className="text-muted-foreground text-xs tracking-widest uppercase mt-3">
+                    {formatDate(data.competition.startAt!)} – {formatDate(data.competition.endAt!)}
+                  </p>
+                )}
+              </div>
+
+              <div className="w-full mb-8 rounded-lg border border-primary/25 bg-primary/[0.06] p-4 text-left">
+                <p className="font-bold text-sm text-foreground">Condición para recibir el premio</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  Para recibir el premio, tus depósitos deben superar el importe del premio correspondiente a tu posición.
+                  Si depositaste menos que ese importe, el premio queda anulado.
+                </p>
+                <p className="mt-2 text-xs text-muted-foreground/75">
+                  La igualdad exacta y el período de depósitos no están definidos. La elegibilidad queda pendiente de
+                  validación por Winovo y no se descalifica automáticamente a ningún jugador.
+                </p>
+              </div>
+
+              <div className="w-full">
+                <div className="flex justify-end mb-2">
+                  <span className="text-[10px] text-muted-foreground/60 tracking-wide">
+                    Updates every 60 sec{isFetching ? " · Updating…" : ""}
+                  </span>
+                </div>
+                <div className="rounded-lg border border-border/40 overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-border/40 hover:bg-transparent bg-white/[0.03]">
+                        <TableHead className="w-12 text-center text-xs font-bold text-muted-foreground py-3">#</TableHead>
+                        <TableHead className="text-xs font-bold text-muted-foreground py-3">PLAYER</TableHead>
+                        <TableHead className="hidden sm:table-cell text-right text-xs font-bold text-muted-foreground py-3">WAGERED</TableHead>
+                        <TableHead className="text-right text-xs font-bold text-primary py-3">PRIZE</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {tablePlayers.map((player) => {
+                        const rank = data.players.indexOf(player) + 1;
+                        const prize = data.prizes?.[String(rank)];
+                        return (
+                          <TableRow key={`${player.name}-${rank}`} className="border-border/20 hover:bg-white/5 transition-colors">
+                            <TableCell className="text-center font-bold text-muted-foreground text-sm py-2.5">{rank}</TableCell>
+                            <TableCell className="font-semibold py-2.5">
+                              <div className="flex items-center gap-2">
+                                <span className="w-6 h-6 rounded-full overflow-hidden border border-border/50 shrink-0">
+                                  {player.pic ? (
+                                    <img src={player.pic} alt="" className="w-full h-full object-cover" />
+                                  ) : (
+                                    <img
+                                      src={avatarLogo}
+                                      alt=""
+                                      className="w-full h-full object-cover"
+                                      style={{ objectPosition: "50% 30%", mixBlendMode: "screen" }}
+                                    />
+                                  )}
+                                </span>
+                                <span className="text-sm truncate">{player.name}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell text-right font-mono text-sm text-muted-foreground py-2.5">
+                              {formatCurrency(player.wagered)}
+                            </TableCell>
+                            <TableCell className="text-right font-bold text-sm py-2.5 text-primary">
+                              {typeof prize === "number" ? formatCurrency(prize) : "Pending"}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+
+              {canLoadMore && (
+                <Button
+                  onClick={(event) => {
+                    setVisibleCount((count) => count + PAGE_SIZE);
+                    event.currentTarget.blur();
+                  }}
+                  variant="outline"
+                  className="mt-5 px-8 text-sm border-border/50 hover:bg-white/5 text-foreground/60 hover:text-foreground"
+                >
+                  LOAD MORE
+                </Button>
+              )}
+
+              <div className="mt-4 text-[11px] text-muted-foreground/70">
+                Premios por posición pendientes de confirmación
+              </div>
+            </>
           )}
 
-          {data && (
-            <div className="mt-3 flex flex-wrap justify-between gap-2 text-[11px] text-muted-foreground/70">
-              <span>Actualización automática cada 60 segundos{isFetching ? " · Actualizando…" : ""}</span>
-              <span>Premios por posición pendientes de confirmación</span>
-            </div>
-          )}
-        </div>
+          <div className="mt-8 mb-4 w-full max-w-xs">
+            <a href={WINOVO_REFERRAL_URL} target="_blank" rel="noopener noreferrer">
+              <Button className="w-full h-11 text-sm font-black tracking-wider text-white bg-[#7c3aed] hover:bg-[#6d28d9] border-none">
+                SIGN UP WITH CODE MANTS7
+              </Button>
+            </a>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
