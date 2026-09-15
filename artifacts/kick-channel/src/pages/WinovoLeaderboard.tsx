@@ -343,7 +343,7 @@ export default function WinovoLeaderboard() {
               )}
 
               <div className="mt-4 text-[11px] text-muted-foreground/70">
-                Premios por posición pendientes de confirmación
+                $500 prize distribution · Top 5 paid
               </div>
             </>
           )}
