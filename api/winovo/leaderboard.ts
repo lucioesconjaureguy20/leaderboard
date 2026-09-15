@@ -43,21 +43,34 @@ type VercelResponse = {
   json(body: unknown): void;
 };
 
+type RuntimeFetchResponse = {
+  ok: boolean;
+  status: number;
+  json(): Promise<unknown>;
+};
+
+const runtime = globalThis as unknown as {
+  process: { env: Record<string, string | undefined> };
+  fetch(
+    input: string,
+    init: { headers: Record<string, string> },
+  ): Promise<RuntimeFetchResponse>;
+};
+
 let cache: { expiresAt: number; value: Leaderboard } | null = null;
 let inFlight: Promise<Leaderboard> | null = null;
 
 async function fetchLeaderboard(): Promise<Leaderboard> {
-  const apiKey = process.env.WINOVO_API_KEY?.trim();
+  const apiKey = runtime.process.env.WINOVO_API_KEY?.trim();
   if (!apiKey) {
     throw new Error("WINOVO_API_KEY is not configured");
   }
 
-  const response = await fetch(WINOVO_USERS_URL, {
+  const response = await runtime.fetch(WINOVO_USERS_URL, {
     headers: {
       accept: "application/json",
       "x-creator-auth": apiKey,
     },
-    signal: AbortSignal.timeout(12_000),
   });
 
   if (!response.ok) {
