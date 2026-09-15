@@ -319,7 +319,7 @@ export default function WinovoLeaderboard() {
                               {formatCurrency(player.wagered)}
                             </TableCell>
                             <TableCell className="text-right font-bold text-sm py-2.5 text-primary">
-                              {typeof prize === "number" ? formatCurrency(prize) : "Pending"}
+                              {typeof prize === "number" ? formatCurrency(prize) : "—"}
                             </TableCell>
                           </TableRow>
                         );
