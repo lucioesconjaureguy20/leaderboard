@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertCircle, Clock3, LoaderCircle, Trophy } from "lucide-react";
+import { AlertCircle, Clock3, LoaderCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -210,10 +210,47 @@ export default function WinovoLeaderboard() {
                   })}
                 </div>
               ) : (
-                <div className="w-full min-h-52 mb-6 rounded-lg border border-border/40 bg-card/50 flex flex-col items-center justify-center gap-3 px-6">
-                  <Trophy className="w-7 h-7 text-primary" />
-                  <p className="font-bold">Todavía no hay jugadores en el ranking</p>
-                  <p className="text-sm text-muted-foreground text-center">Los datos aparecerán cuando Winovo reporte wagers.</p>
+                <div className="flex items-end justify-center gap-3 sm:gap-6 mb-10 w-full">
+                  {[2, 1, 3].map((rank) => {
+                    const isFirst = rank === 1;
+                    const isSecond = rank === 2;
+                    const prize = data.prizes?.[String(rank)];
+                    return (
+                      <motion.div
+                        key={rank}
+                        initial={{ opacity: 0, scale: 0.85 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: rank * 0.1, duration: 0.4 }}
+                        className={`flex flex-col items-center ${isFirst ? "order-2 z-10" : isSecond ? "order-1" : "order-3"}`}
+                      >
+                        <div className="flex flex-col items-center mb-2">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-black text-xs mb-1.5 shadow ${
+                            isFirst ? "bg-primary" : isSecond ? "bg-slate-300" : "bg-[#cd7f32]"
+                          }`}>
+                            {rank}
+                          </div>
+                          <div className={`rounded-full border-4 flex items-center justify-center bg-card text-muted-foreground ${
+                            isFirst
+                              ? "w-16 h-16 sm:w-20 sm:h-20 border-primary shadow-[0_0_16px_rgba(168,85,247,0.35)]"
+                              : "w-12 h-12 sm:w-16 sm:h-16 border-muted"
+                          }`}>
+                            <span className="text-xl font-bold">—</span>
+                          </div>
+                        </div>
+                        <div className={`w-24 sm:w-32 rounded-t-xl border-x border-t border-border flex flex-col items-center px-2 py-3 text-center ${
+                          isFirst
+                            ? "h-44 sm:h-52 border-primary/50 bg-gradient-to-t from-primary/10 to-card"
+                            : isSecond ? "h-32 sm:h-40 bg-card" : "h-24 sm:h-32 bg-card"
+                        }`}>
+                          <div className="font-bold text-muted-foreground text-xs sm:text-sm truncate w-full">Awaiting player</div>
+                          <div className="text-[10px] sm:text-xs text-muted-foreground/60 mt-0.5 mb-auto">—</div>
+                          <div className="font-black text-primary text-sm sm:text-base mt-1">
+                            {typeof prize === "number" ? formatCurrency(prize) : "Pending"}
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               )}
 
@@ -236,18 +273,6 @@ export default function WinovoLeaderboard() {
                     {formatDate(data.competition.startAt!)} – {formatDate(data.competition.endAt!)}
                   </p>
                 )}
-              </div>
-
-              <div className="w-full mb-8 rounded-lg border border-primary/25 bg-primary/[0.06] p-4 text-left">
-                <p className="font-bold text-sm text-foreground">Condición para recibir el premio</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Para recibir el premio, tus depósitos deben superar el importe del premio correspondiente a tu posición.
-                  Si depositaste menos que ese importe, el premio queda anulado.
-                </p>
-                <p className="mt-2 text-xs text-muted-foreground/75">
-                  La igualdad exacta y el período de depósitos no están definidos. La elegibilidad queda pendiente de
-                  validación por Winovo y no se descalifica automáticamente a ningún jugador.
-                </p>
               </div>
 
               <div className="w-full">
