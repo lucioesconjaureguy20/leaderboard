@@ -3,6 +3,8 @@ import { Router, type IRouter } from "express";
 const router: IRouter = Router();
 const WINOVO_USERS_URL = "https://winovo.io/api/creator/users";
 const CACHE_TTL_MS = 55_000;
+const WINOVO_RACE_START_AT = "2026-09-15T17:44:28.539Z";
+const WINOVO_RACE_END_AT = "2026-09-22T17:44:28.539Z";
 const WINOVO_PRIZES: Record<string, number> = {
   "1": 225,
   "2": 150,
@@ -36,18 +38,6 @@ type CachedLeaderboard = {
 
 let cache: { expiresAt: number; value: CachedLeaderboard } | null = null;
 let inFlight: Promise<CachedLeaderboard> | null = null;
-
-function readOptionalDate(name: string): string | null {
-  const value = process.env[name]?.trim();
-  if (!value) return null;
-
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) {
-    throw new Error(`${name} must be a valid ISO date`);
-  }
-
-  return parsed.toISOString();
-}
 
 async function fetchLeaderboard(): Promise<CachedLeaderboard> {
   const apiKey = process.env["WINOVO_API_KEY"]?.trim();
@@ -100,8 +90,8 @@ async function fetchLeaderboard(): Promise<CachedLeaderboard> {
     players,
     fetchedAt: new Date().toISOString(),
     competition: {
-      startAt: readOptionalDate("WINOVO_RACE_START_AT"),
-      endAt: readOptionalDate("WINOVO_RACE_END_AT"),
+      startAt: WINOVO_RACE_START_AT,
+      endAt: WINOVO_RACE_END_AT,
     },
     prizes: WINOVO_PRIZES,
     prizePoolUsd: 500,
