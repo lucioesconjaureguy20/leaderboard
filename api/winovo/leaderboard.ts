@@ -1,5 +1,6 @@
 const WINOVO_USERS_URL = "https://winovo.io/api/creator/users";
 const CACHE_TTL_MS = 55_000;
+// This function keeps the Winovo credential server-side on Vercel.
 const WINOVO_RACE_START_AT = "2026-09-15T17:44:28.539Z";
 const WINOVO_RACE_END_AT = "2026-09-22T17:44:28.539Z";
 const WINOVO_PRIZES: Record<string, number> = {
