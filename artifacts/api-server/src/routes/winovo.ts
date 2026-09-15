@@ -3,6 +3,13 @@ import { Router, type IRouter } from "express";
 const router: IRouter = Router();
 const WINOVO_USERS_URL = "https://winovo.io/api/creator/users";
 const CACHE_TTL_MS = 55_000;
+const WINOVO_PRIZES: Record<string, number> = {
+  "1": 225,
+  "2": 150,
+  "3": 100,
+  "4": 15,
+  "5": 10,
+};
 
 type WinovoPlayer = {
   name: string;
@@ -40,27 +47,6 @@ function readOptionalDate(name: string): string | null {
   }
 
   return parsed.toISOString();
-}
-
-function readOptionalPrizes(): Record<string, number> | null {
-  const raw = process.env["WINOVO_PRIZES_JSON"]?.trim();
-  if (!raw) return null;
-
-  const parsed: unknown = JSON.parse(raw);
-  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-    throw new Error("WINOVO_PRIZES_JSON must be a JSON object");
-  }
-
-  const prizes: Record<string, number> = {};
-  for (const [rank, amount] of Object.entries(parsed)) {
-    const rankNumber = Number(rank);
-    if (!Number.isInteger(rankNumber) || rankNumber < 1 || typeof amount !== "number" || amount < 0) {
-      throw new Error("WINOVO_PRIZES_JSON contains an invalid rank or amount");
-    }
-    prizes[String(rankNumber)] = amount;
-  }
-
-  return prizes;
 }
 
 async function fetchLeaderboard(): Promise<CachedLeaderboard> {
@@ -117,7 +103,7 @@ async function fetchLeaderboard(): Promise<CachedLeaderboard> {
       startAt: readOptionalDate("WINOVO_RACE_START_AT"),
       endAt: readOptionalDate("WINOVO_RACE_END_AT"),
     },
-    prizes: readOptionalPrizes(),
+    prizes: WINOVO_PRIZES,
     prizePoolUsd: 500,
     eligibility: {
       canVerify: false,
