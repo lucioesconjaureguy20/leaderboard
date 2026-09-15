@@ -17,7 +17,7 @@ export default function Navbar() {
 
       <div className="flex items-center gap-6 md:gap-8">
         <Link href="/" className={linkClass("/")} data-testid="nav-home">Home</Link>
-        <Link href="/stake" className={linkClass("/stake")} data-testid="nav-legendz">Legendz</Link>
+        <Link href="/legendz" className={linkClass("/legendz")} data-testid="nav-legendz">Legendz</Link>
         <Link href="/winovo" className={linkClass("/winovo")} data-testid="nav-winovo">Winovo</Link>
       </div>
     </nav>

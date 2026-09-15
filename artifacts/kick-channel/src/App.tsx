@@ -28,7 +28,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={() => <PageWrapper><Home /></PageWrapper>} />
-      <Route path="/stake" component={() => <PageWrapper><Leaderboard /></PageWrapper>} />
+      <Route path="/legendz" component={() => <PageWrapper><Leaderboard /></PageWrapper>} />
       <Route path="/qzino" component={() => <PageWrapper><QzinoLeaderboard /></PageWrapper>} />
       <Route path="/winovo" component={() => <PageWrapper><WinovoLeaderboard /></PageWrapper>} />
       <Route component={NotFound} />

@@ -45,7 +45,7 @@ export default function Home() {
               <div className="text-2xl sm:text-4xl font-bold text-primary">$2,000</div>
               <div className="w-full flex flex-col gap-2">
                 <Button
-                  onClick={() => navigate("/stake")}
+                  onClick={() => navigate("/legendz")}
                   variant="outline"
                   className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold border-2 border-white/70 hover:bg-white/10 hover:text-white transition-all px-1"
                   data-testid="button-view-leaderboard"
