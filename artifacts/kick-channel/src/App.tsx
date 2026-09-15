@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Home from "@/pages/Home";
 import Leaderboard from "@/pages/Leaderboard";
 import QzinoLeaderboard from "@/pages/QzinoLeaderboard";
+import WinovoLeaderboard from "@/pages/WinovoLeaderboard";
 import LoadingScreen from "@/components/LoadingScreen";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ function Router() {
       <Route path="/" component={() => <PageWrapper><Home /></PageWrapper>} />
       <Route path="/stake" component={() => <PageWrapper><Leaderboard /></PageWrapper>} />
       <Route path="/qzino" component={() => <PageWrapper><QzinoLeaderboard /></PageWrapper>} />
+      <Route path="/winovo" component={() => <PageWrapper><WinovoLeaderboard /></PageWrapper>} />
       <Route component={NotFound} />
     </Switch>
   );

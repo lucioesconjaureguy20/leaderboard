@@ -32,7 +32,7 @@ export default function Home() {
         </div>
 
         {/* Cards */}
-        <div className="w-full flex justify-center">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
 
           {/* Legendz card */}
           <Card className="w-full max-w-sm bg-[#15192b] border-transparent">
@@ -53,6 +53,34 @@ export default function Home() {
                 </Button>
                 <a href="https://legendz.io?ref=MANTS7" target="_blank" rel="noopener noreferrer" className="w-full">
                   <Button className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold bg-[#7c3aed] hover:bg-[#6d28d9] text-white border-none px-1" data-testid="button-signup-code">
+                    SIGN UP WITH CODE MANTS7
+                  </Button>
+                </a>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Winovo card */}
+          <Card className="w-full bg-[#15192b] border-transparent">
+            <CardContent className="p-3 sm:p-6 flex flex-col items-center gap-3">
+              <div className="text-[9px] sm:text-sm font-bold text-muted-foreground tracking-widest uppercase text-center">
+                Weekly Leaderboard
+              </div>
+              <div className="h-5 sm:h-8 flex items-center text-xl sm:text-2xl font-black italic tracking-tight text-white">
+                WIN<span className="text-[#7c3aed]">OVO</span>
+              </div>
+              <div className="text-2xl sm:text-4xl font-bold text-primary">$500</div>
+              <div className="w-full flex flex-col gap-2">
+                <Button
+                  onClick={() => navigate("/winovo")}
+                  variant="outline"
+                  className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold border-2 border-white/70 hover:bg-white/10 hover:text-white transition-all px-1"
+                  data-testid="button-view-winovo-leaderboard"
+                >
+                  VIEW LEADERBOARD
+                </Button>
+                <a href="https://winovo.io/?ref=mants7" target="_blank" rel="noopener noreferrer" className="w-full">
+                  <Button className="w-full h-9 sm:h-12 text-[10px] sm:text-sm font-bold bg-[#7c3aed] hover:bg-[#6d28d9] text-white border-none px-1">
                     SIGN UP WITH CODE MANTS7
                   </Button>
                 </a>
